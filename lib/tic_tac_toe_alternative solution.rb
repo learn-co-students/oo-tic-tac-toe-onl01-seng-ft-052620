@@ -3,8 +3,9 @@ require 'pry'
 class TicTacToe
 
     # define a board at the creation of an instance.
-    def initialize()
+    def initialize
     @board = Array.new(9, " ")
+    @turns = 0
     end
 
     # create scenarios where the instance can recognize the winner
@@ -34,6 +35,7 @@ class TicTacToe
 
     def move(index, token = "X")
         @board[index] = token
+        @turns += 1
     end
 
     def position_taken?(index)
@@ -53,67 +55,71 @@ class TicTacToe
         input = gets.chomp
         index = input_to_index(input)
         if valid_move?(index)
-            move(index, self.current_player)
+            move(index)
             self.display_board
+            self.current_player
         else puts "Sorry, that move is invalid. Please enter a new number."
             self.turn
         end
     end
 
     def turn_count
-        turns = 0
-        @board.each do |value|
-        turns += 1 if value != " "
-        end
-        turns
+        @turns
     end
 
     def current_player
         turn_count % 2 == 0 ? "X" : "O"
     end
 
+    
+    def pattern(player)
+        pattern = []
+        @board.each_with_index do |value, index|
+            pattern << index if value == "#{player}"
+        end
+        pattern   
+    end
 
     def won?
         winning_pattern = nil
 
+        pattern_x = self.pattern("X")
+        pattern_o = self.pattern("O")
         WIN_COMBINATIONS.each do |pattern|
-        if @board[pattern[0]] == @board[pattern[1]] && @board[pattern[0]] == @board[pattern[2]] && @board[pattern[0]] != " "
-            winning_pattern = pattern
-        end
+            x = pattern[0]
+            y = pattern[1]
+            z = pattern[2]
+            if pattern_x.include?(x) && pattern_x.include?(y) && pattern_x.include?(z)
+                winning_pattern = pattern
+            elsif pattern_o.include?(x) && pattern_o.include?(y) && pattern_o.include?(z)
+                winning_pattern = pattern
+            end
         end
         winning_pattern
     end
 
     def full?
-        (0..8).to_a.all? {|index| position_taken?(index)}
-    end
+        @board.all? { |position| position != " " }  
+     end
+ 
+     def draw?
+         full? && !won?
+     end
+ 
+     def over?
+         draw? || won?
+     end
+ 
+     def winner
+         if win_combo = won?
+             @board[win_combo[0]]
+         end
+     end
+ 
+     def play
+         turn until over?
+         puts winner ? "Congratulations #{winner}!" : "Cat's Game!"
+     end
 
-
-    def draw?
-        full? && !won?
-    end
-
-    def over?
-        draw? || won?
-    end
-
-    def winner
-        if won?
-        @board[won?[0]]
-        else nil
-        end
-    end
-
-    def play
-        display_board
-        while !over?
-            turn
-        end
-        if won?
-            puts "Congratulations #{winner}!"
-        else
-            puts "Cat's Game!"
-        end
-    end
 
 end
