@@ -107,10 +107,8 @@ def draw?
 end
 
 def over?
-  if full? == true || won? == true
+  if full? == true || won? == true || draw? == true
     return true
-  else
-    return false
   end 
 end
 
@@ -122,15 +120,14 @@ def winner
 end
 
 def play
-  until over? == TRUE
-      turn
-      draw?
+  until over?
+    turn
   end
   
   if won?
-      puts "Congratulations #{winner}!" 
+   puts "Congratulations #{winner}!"
   elsif draw?
-      puts "Cat's Game!" 
+   puts "Cat's game!"
   end
 end
 
