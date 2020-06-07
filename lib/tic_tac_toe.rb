@@ -37,17 +37,17 @@ def move(index, current_player)
 end
 
 def position_taken?(index)
-  if board[index] == nil
-    return false
-  elsif
-    board[index] == " "
-    return false
-  elsif
-    board[index] == ""
-    return false
-  else
-    return true
-  end
+  board[index] != " "
+  #   return false
+  # elsif
+  #   board[index] == " "
+  #   return false
+  # elsif
+  #   board[index] == ""
+  #   return false
+  # else
+  #   return true
+  # end
 end
 
 def valid_move?(index)
@@ -97,21 +97,11 @@ def full?
 end
 
 def draw?
-  if full? == true && won? == false
-    return true
-  elsif won? == true
-    return false
-  else
-    return false
-  end
+  full? && !won?
 end
 
 def over?
-  if full? == true || won? == true || draw? == true
-    return true
-  else
-    return false
-  end 
+  won? || draw?
 end
 
 def winner
@@ -121,16 +111,16 @@ def winner
   end
 end
 
-# def play
-#   until over?
-#     turn
-#   end
+def play
+  until over?
+    turn
+  end
   
-#   if won?
-#   puts "Congratulations #{winner}!"
-#   elsif draw?
-#   puts "Cat's game!"
-#   end
-# end
+  if winner
+  puts "Congratulations #{winner}!"
+  else
+  puts "Cat's Game!"
+  end
+end
 
 end
