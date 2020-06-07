@@ -88,7 +88,7 @@ def won?
     elsif board[combo[0]] == "O" && board[combo[1]] == "O" && board[combo[2]] == "O"
       return combo
     end
-  end 
+  end
   false
 end
 
@@ -109,6 +109,8 @@ end
 def over?
   if full? == true || won? == true || draw? == true
     return true
+  else
+    return false
   end 
 end
 
@@ -119,16 +121,16 @@ def winner
   end
 end
 
-def play
-  until over?
-    turn
-  end
+# def play
+#   until over?
+#     turn
+#   end
   
-  if won?
-   puts "Congratulations #{winner}!"
-  elsif draw?
-   puts "Cat's game!"
-  end
-end
+#   if won?
+#   puts "Congratulations #{winner}!"
+#   elsif draw?
+#   puts "Cat's game!"
+#   end
+# end
 
 end
