@@ -11,82 +11,70 @@ class TicTacToe
   ]
  def initialize
     @board = Array.new(9," ")
-    @board 
+   
+     
   end
  
-  def current_player
-    turn_count % 2 == 0 ? "X" : "O"
-  end
- 
-  def turn_count
-    @board.count{|token| token == "X" || token == "O"}
-  end
- 
-  def display_board
-    puts " #{@board[0]} | #{@board[1]} | #{@board[2]} "
-    puts "-----------"
-    puts " #{@board[3]} | #{@board[4]} | #{@board[5]} "
-    puts "-----------"
-    puts " #{@board[6]} | #{@board[7]} | #{@board[8]} "
-  end
+ def display_board
+  puts " #{@board[0]} | #{@board[1]} | #{@board[2]} "
+  puts "-----------"
+  puts " #{@board[3]} | #{@board[4]} | #{@board[5]} "
+  puts "-----------"
+  puts " #{@board[6]} | #{@board[7]} | #{@board[8]} "
+end
 
 def input_to_index(user_input)
-  user_input.to_i - 1 
-end 
-def move(index,current_player = "X")
+  user_input.to_i - 1
+end
+
+def move(index, current_player = "X")
   @board[index] = current_player
-end 
+end
+
 def position_taken?(index)
- if @board[index] == nil
-    return FALSE
-  elsif
-    @board[index] == " "
-    return FALSE
-  elsif
-    @board[index] == " "
-    return FALSE
-  else
-    return TRUE
-  end
+  !(@board[index].nil? || @board[index] == " ")
 end
 
 def valid_move?(index)
-  
-  if @board[index] == nil
-    return FALSE
-  elsif
-    @board[index] == "X"
-    return FALSE
-  elsif
-    @board[index] == "O"
-    return FALSE
-    elsif !index.between?(0,8)
-    return FALSE
+  index.between?(0,8) && !position_taken?(index)
+end
+
+def turn_count
+  turn = 0
+  @board.each do |index|
+    if index == "X" || index == "O"
+      turn += 1
+    end
+  end
+  return turn
+end
+
+def current_player
+  #if the turn count is an even number, that means O just went, so the next/current player is X
+  num_turns = turn_count
+  if num_turns % 2 == 0
+    player = "X"
   else
-   
-    return TRUE
+    player = "O"
+  end
+  return player
+end
+
+def turn
+  puts "Please choose a number 1-9:"
+  user_input = gets.chomp
+  index = input_to_index(user_input)
+  if valid_move?(index)
+    player_token = current_player
+    move(index, player_token)
+    display_board
+  else
+    turn
   end
 end
 
-
-def turn 
-puts "choose a number between 1-9 to make a move "
-user_input = gets.chomp
-index = input_to_index(user_input)
-if valid_move?(index)
-player_token = current_player
-   move(index, player_token)
-  
-else
- turn 
-end
-display_board
-end
-
-
 def won?
-
- WIN_COMBINATIONS.each {|win_combo|
+  WIN_COMBINATIONS.each {|win_combo|
     index_0 = win_combo[0]
     index_1 = win_combo[1]
     index_2 = win_combo[2]
@@ -95,7 +83,7 @@ def won?
     position_2 = @board[index_1]
     position_3 = @board[index_2]
 
- if position_1 == "X" && position_2 == "X" && position_3 == "X"
+    if position_1 == "X" && position_2 == "X" && position_3 == "X"
       return win_combo
     elsif position_1 == "O" && position_2 == "O" && position_3 == "O"
       return win_combo
@@ -103,24 +91,29 @@ def won?
   }
   return false
 end
+
 def full?
-@board.all?{|index| index == "X" || index == "O"}
-    end
-    
-    def draw? 
-     if !won? && full?
+  @board.all? {|index| index == "X" || index == "O"}
+end
+
+def draw?
+  if !won? && full?
     return true
-   else 
-     return false
-   end 
-    end
-    def over? 
-    if won? || full?
+  else
+    return false
+  end
+end
+
+def over?
+  if won? || draw?
     return true
-  end 
-    end 
-    def winner 
-     index = []
+  else
+    return false
+  end
+end
+
+def winner
+  index = []
   index = won?
   if index == false
     return nil
@@ -131,17 +124,18 @@ def full?
       return "O"
     end
   end
-end 
-
+end
 
 def play
   until over? 
     turn
-  end 
- if won?
+  end
+
+  if won?
     puts "Congratulations #{winner}!"
-  elsif draw? 
+  elsif draw?
     puts "Cat's Game!"
   end
-end 
+end
+TicTacToe.new 
 end
