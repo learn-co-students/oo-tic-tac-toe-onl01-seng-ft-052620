@@ -135,7 +135,7 @@ end
 
 
 def play
-  until over? == TRUE
+  until over? 
     turn
   end 
  if won?
