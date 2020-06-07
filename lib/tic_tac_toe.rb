@@ -122,14 +122,15 @@ def winner
 end
 
 def play
-  until over?
-  turn
-  end
-  if won?
-    puts "Congratulations, #{winner}!"
-  else
-    puts "It's a draw!"
-  end
+   until over?
+      turn
+   end 
+   
+   if won?(board)
+      puts "Congratulations #{winner}!" 
+   elsif draw?(board)
+      puts "Cats Game!" 
+   end 
 end
 
 end
