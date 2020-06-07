@@ -125,7 +125,9 @@ def play
   until over? == TRUE
       turn
       draw?
-  elsif won?
+  end
+  
+  if won?
       puts "Congratulations #{winner}!" 
   elsif draw?
       puts "Cat's Game!" 
