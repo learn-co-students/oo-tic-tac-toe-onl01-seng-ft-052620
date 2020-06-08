@@ -1,8 +1,8 @@
 require 'pry'
 class TicTacToe
    
-    def initialize(board = nil)
-        @board = board || Array.new(9, " ")
+    def initialize
+        @board = Array.new(9, " ")
     end
 
     WIN_COMBINATIONS = [
@@ -40,8 +40,8 @@ class TicTacToe
         end
     end
 
-    def valid_move?(position)
-        if @board[position] == " "
+    def valid_move?(index) 
+        if !position_taken?(index) && index.between?(0,8)
             true
         else
             false
@@ -78,5 +78,55 @@ class TicTacToe
         end
         display_board
     end
+
+    def won? 
+        WIN_COMBINATIONS.each do |winner|
+          return winner if winner.all? {|index| @board[index] == "X"}
+        end
+        WIN_COMBINATIONS.each do |winner|
+            return winner if winner.all? {|index| @board[index] == "O"} 
+        end
+		false
+    end
+
+    def full?
+        if @board.any? {|i| i == " "}
+            false
+        else 
+            true
+        end
+    end
+
+    def draw?
+        full? && !won?
+    end
+
+    def over?
+        draw? || won?
+    end
+
+    def winner
+        WIN_COMBINATIONS.each do |winner|
+            return "X" if winner.all? {|index| @board[index] == "X"}
+            end
+        WIN_COMBINATIONS.each do |winner|
+              return "O" if winner.all? {|index| @board[index] == "O"} 
+              end
+        nil
+    end
+
+    def play
+        until over?
+            turn
+        end
+
+        if won?
+            puts "Congratulations #{winner}!"
+        else
+            puts "Cat's Game!"
+        end
+    end
+
+    
 
 end
