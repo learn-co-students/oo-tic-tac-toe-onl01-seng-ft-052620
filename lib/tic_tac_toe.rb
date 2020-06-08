@@ -83,14 +83,7 @@ class TicTacToe
     end
 
     def won?
-        # Check if won
-        # @board = [ "" , "" , ... , ""] 9 index
-        # Winning Combos = [0,1,2], ..., [2,4,6]
-        # Search through @board see if 'X' Take index
-        # Search thorogh @board see if 'O' Take index
-        # put index into seperate array of 'X' and 'O'
-        # Search for any winning combos inside of seperate arrays
-        # return winning array
+        
 
         WIN_COMBINATIONS.find do |indexs|
             values = @board.values_at(*indexs)
